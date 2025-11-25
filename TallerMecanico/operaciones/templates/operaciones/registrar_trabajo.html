@@ -5,51 +5,30 @@
 
 {% block content %}
 
-<div class="d-flex gap-3 mb-4">
-    <a href="{% url 'crear_cliente' %}" class="btn btn-primary">➕ Crear Cliente</a>
-    <a href="{% url 'crear_vehiculo' %}" class="btn btn-warning">➕ Crear Vehículo</a>
-</div>
+<div class="f1-card" style="max-width: 700px; margin:auto;">
+    <h2 class="fw-bold mb-4" style="font-family:'Orbitron';">
+        🏁 Registrar Nuevo Trabajo
+    </h2>
 
-<div class="card p-4 shadow-lg" style="max-width: 700px; margin: auto;">
-    <h3 class="mb-4 fw-bold">
-        Registrar Nuevo Trabajo
-    </h3>
-
-    <form method="POST">
+    <form method="POST" class="f1-form">
         {% csrf_token %}
 
-        <!-- Mostrar errores -->
-        {% if form.errors %}
-            <div class="alert alert-danger">
-                <strong>Errores al enviar el formulario:</strong>
-                {{ form.errors }}
-            </div>
-        {% endif %}
-
-        <!-- Renderizar el ModelForm con clases Bootstrap -->
         {% for field in form %}
             <div class="mb-3">
-                <label class="form-label fw-semibold">{{ field.label }}</label>
+                <label>{{ field.label }}</label>
                 {{ field }}
                 {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors }}</div>
+                    <p class="text-danger small">{{ field.errors }}</p>
                 {% endif %}
             </div>
         {% endfor %}
 
-        <button class="btn btn-success btn-lg w-100 mt-3">
-            Guardar Trabajo
-        </button>
+        <button class="f1-btn mt-3">Guardar Trabajo</button>
     </form>
 </div>
 
-<div class="text-center mt-4">
-    <a href="{% url 'lista_trabajos' %}" class="btn btn-outline-light">
-        ⬅ Volver a la Lista
-    </a>
-</div>
-
 {% endblock %}
+
 
 
 

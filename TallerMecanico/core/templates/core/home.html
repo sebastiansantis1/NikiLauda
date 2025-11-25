@@ -1,40 +1,71 @@
 {% extends "core/base.html" %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Inicio - Niki Lauda Taller{% endblock %}
 
 {% block content %}
 
-<div class="text-center">
-    <h1 class="fw-bold mb-4">Bienvenido al Sistema del Taller</h1>
-    <p class="lead mb-5">Selecciona una opción para continuar</p>
+<!-- HERO PRINCIPAL -->
+<div class="hero position-relative text-center text-light py-5 mb-5" style="border-radius: 10px;">
+    <div class="position-relative" style="z-index:2;">
+        <h1 class="fw-bold display-4" style="font-family:'Orbitron'; letter-spacing:3px;">
+            NIKI LAUDA TALLER MECÁNICO
+        </h1>
+        <p class="lead mt-3" style="max-width:700px; margin:auto;">
+            Precisión, velocidad y excelencia mecánica inspiradas en el legado de la Fórmula 1.
+        </p>
+    </div>
+</div>
 
-    <div class="row justify-content-center">
+<!-- BOTONES PRINCIPALES -->
+<div class="row justify-content-center mb-5">
 
-        <!-- Registrar Trabajo -->
-        <div class="col-md-4 mb-3">
-            <a href="{% url 'registrar_trabajo' %}" class="btn btn-success w-100 py-3 fs-5">
-                ➕ Registrar Trabajo
-            </a>
-        </div>
+    <!-- Registrar Trabajo -->
+    <div class="col-md-4 mb-3">
+        <a href="{% url 'registrar_trabajo' %}" class="btn btn-primary w-100 py-4 fs-4" 
+           style="border-radius:10px; font-weight:600;">
+            <i class="bi bi-clipboard-plus"></i> Registrar Trabajo
+        </a>
+    </div>
 
-        <!-- Ver Trabajos -->
-        <div class="col-md-4 mb-3">
-            <a href="{% url 'lista_trabajos' %}" class="btn btn-primary w-100 py-3 fs-5">
-                📋 Ver Trabajos
-            </a>
-        </div>
+    <!-- Ver Trabajos -->
+    <div class="col-md-4 mb-3">
+        <a href="{% url 'lista_trabajos' %}" class="btn btn-warning text-dark w-100 py-4 fs-4"
+           style="border-radius:10px; font-weight:600;">
+            <i class="bi bi-list-ul"></i> Ver Trabajos
+        </a>
+    </div>
 
-        <!-- Gestión de Usuarios (solo ADMIN) -->
-        {% if request.user.is_authenticated and request.user.perfil.rol == "ADMIN" %}
-        <div class="col-md-4 mb-3">
-            <a href="{% url 'gestionar_usuarios' %}" class="btn btn-warning w-100 py-3 fs-5">
-                👥 Gestión de Usuarios
-            </a>
-        </div>
-        {% endif %}
+    <!-- Panel Admin SOLO ADMIN -->
+    {% if user.is_authenticated and user.perfil.rol == "ADMIN" %}
+    <div class="col-md-4 mb-3">
+        <a href="{% url 'gestionar_usuarios' %}" class="btn btn-danger w-100 py-4 fs-4"
+           style="border-radius:10px; font-weight:600;">
+            <i class="bi bi-gear-fill"></i> Panel Administrativo
+        </a>
+    </div>
+    {% endif %}
+</div>
 
+<!-- SECCIÓN DESTACADA -->
+<div class="card shadow-lg p-4 mt-5">
+    <h3 class="fw-bold mb-3" style="font-family:'Orbitron'; color:var(--amarillo-f1);">
+        <i class="bi bi-flag-checkered"></i> Inspirado en la Fórmula 1
+    </h3>
+    <p class="fs-5">
+        Nuestro sistema toma inspiración del legendario piloto <strong>Niki Lauda</strong> y de la ingeniería 
+        de precisión propia de la <strong>F1</strong>. Cada operación es diseñada para ser rápida, eficiente 
+        y confiable, como un pit stop perfecto.
+    </p>
+
+    <!-- Imagen destacada (agrega una en /static/img/) -->
+    <div class="text-center mt-4">
+        <img src="/static/img/nikilauda.jpg" 
+             alt="Niki Lauda" 
+             class="img-fluid rounded shadow"
+             style="max-height:300px; object-fit:cover;">
     </div>
 </div>
 
 {% endblock %}
+
 

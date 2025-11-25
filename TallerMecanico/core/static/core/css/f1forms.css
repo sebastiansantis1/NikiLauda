@@ -1,0 +1,53 @@
+/* ========================== */
+/* FORMULARIOS ESTILO F1      */
+/* ========================== */
+
+.f1-form label {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--amarillo-f1);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.f1-form input,
+.f1-form select,
+.f1-form textarea {
+    background: #0f1116;
+    border: 2px solid #2a2f38;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all 0.25s ease-in-out;
+}
+
+.f1-form input:focus,
+.f1-form select:focus,
+.f1-form textarea:focus {
+    background: #131821;
+    border-color: var(--rojo-ferrari);
+    box-shadow: 0 0 5px var(--rojo-ferrari);
+}
+
+.f1-btn {
+    background: linear-gradient(to right, var(--rojo-ferrari), var(--rojo-ferrari-oscuro));
+    border: none;
+    padding: 12px;
+    font-weight: 700;
+    color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    transition: 0.2s ease-in-out;
+}
+
+.f1-btn:hover {
+    transform: scale(1.02);
+    background: linear-gradient(to right, var(--rojo-ferrari-oscuro), var(--rojo-ferrari));
+}
+
+.f1-card {
+    background: var(--gris-metal);
+    border-left: 4px solid var(--rojo-ferrari);
+    padding: 30px;
+    border-radius: 12px;
+}

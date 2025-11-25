@@ -62,7 +62,16 @@ def gestionar_usuarios(request):
 
     usuarios = PerfilUsuario.objects.select_related("user").all()
 
-    return render(request, "core/gestionar_usuarios.html", {"usuarios": usuarios})
+    total_usuarios = usuarios.count()
+    usuarios_activos = usuarios.filter(activo=True).count()
+    usuarios_inactivos = usuarios.filter(activo=False).count()
+
+    return render(request, "core/gestionar_usuarios.html", {
+        "usuarios": usuarios,
+        "total_usuarios": total_usuarios,
+        "usuarios_activos": usuarios_activos,
+        "usuarios_inactivos": usuarios_inactivos,
+    })
 
 
 # ---------------------------------------------------------

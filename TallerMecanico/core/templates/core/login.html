@@ -3,39 +3,62 @@
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
+
 <div class="row justify-content-center">
-    <div class="col-md-4">
+    <div class="col-md-6">
 
-        <div class="card bg-secondary text-light p-4 shadow">
+        <div class="card shadow-lg p-4" style="border-radius: 12px;">
+            
+            <h2 class="fw-bold text-center mb-4" 
+                style="font-family:'Orbitron'; letter-spacing:2px;">
+                <i class="bi bi-person-circle"></i> Iniciar Sesión
+            </h2>
 
-            <h3 class="text-center mb-3 fw-bold">Iniciar Sesión</h3>
-
-            {% if next %}
-            <div class="alert alert-warning">
-                Debes iniciar sesión para acceder a esta sección.
+            <!-- Imagen estilo F1 -->
+            <div class="text-center mb-4">
+                <img src="/static/img/nikiauto.jpg" 
+                     alt="Niki Lauda" 
+                     class="img-fluid rounded"
+                     style="max-height:180px; opacity:0.85;">
             </div>
+
+            <!-- Errores -->
+            {% if form.errors %}
+                <div class="alert alert-danger text-center">
+                    <strong>Error:</strong> Usuario o contraseña incorrectos.
+                </div>
             {% endif %}
 
+            <!-- Formulario -->
             <form method="POST">
                 {% csrf_token %}
 
-                {{ form.non_field_errors }}
-
                 <div class="mb-3">
-                    <label class="form-label">Usuario</label>
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-person-fill"></i> Usuario
+                    </label>
                     {{ form.username }}
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Contraseña</label>
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-lock-fill"></i> Contraseña
+                    </label>
                     {{ form.password }}
                 </div>
 
-                <button class="btn btn-light w-100 fw-bold">Ingresar</button>
+                <button type="submit" class="btn btn-primary w-100 py-2 fs-5">
+                    <i class="bi bi-box-arrow-in-right"></i> Entrar
+                </button>
             </form>
 
         </div>
 
+        <div class="text-center mt-3">
+            <a href="/" class="text-light">⬅ Volver al Inicio</a>
+        </div>
+
     </div>
 </div>
+
 {% endblock %}
