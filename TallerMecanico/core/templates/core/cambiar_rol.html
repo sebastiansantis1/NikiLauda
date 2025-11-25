@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+
+{% block title %}Cambiar Rol{% endblock %}
+
+{% block content %}
+<div class="card shadow-lg p-4" style="max-width: 600px; margin:auto;">
+    <h3 class="fw-bold mb-4">Cambiar Rol de {{ usuario.user.username }}</h3>
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label class="form-label fw-semibold">Nuevo Rol</label>
+        <select name="rol" class="form-select mb-4">
+            <option value="ADMIN" {% if usuario.rol == "ADMIN" %}selected{% endif %}>Administrador</option>
+            <option value="ENCARGADO" {% if usuario.rol == "ENCARGADO" %}selected{% endif %}>Encargado</option>
+            <option value="MECANICO" {% if usuario.rol == "MECANICO" %}selected{% endif %}>Mecánico</option>
+        </select>
+
+        <button class="btn btn-primary w-100">Guardar Cambios</button>
+    </form>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{% url 'gestionar_usuarios' %}" class="btn btn-outline-light">⬅ Volver</a>
+</div>
+{% endblock %}

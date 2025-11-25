@@ -1,0 +1,40 @@
+{% extends "core/base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1 class="fw-bold mb-4">Bienvenido al Sistema del Taller</h1>
+    <p class="lead mb-5">Selecciona una opción para continuar</p>
+
+    <div class="row justify-content-center">
+
+        <!-- Registrar Trabajo -->
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'registrar_trabajo' %}" class="btn btn-success w-100 py-3 fs-5">
+                ➕ Registrar Trabajo
+            </a>
+        </div>
+
+        <!-- Ver Trabajos -->
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'lista_trabajos' %}" class="btn btn-primary w-100 py-3 fs-5">
+                📋 Ver Trabajos
+            </a>
+        </div>
+
+        <!-- Gestión de Usuarios (solo ADMIN) -->
+        {% if request.user.is_authenticated and request.user.perfil.rol == "ADMIN" %}
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'gestionar_usuarios' %}" class="btn btn-warning w-100 py-3 fs-5">
+                👥 Gestión de Usuarios
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
+

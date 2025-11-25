@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Niki Lauda Taller{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts (Poppins + Orbitron para estilo F1) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+
+    <style>
+        /* ------------------------------
+           PALETA DE COLORES
+        ------------------------------ */
+        :root {
+            --rojo-ferrari: #D90429;
+            --rojo-ferrari-oscuro: #A3001F;
+            --negro-carbon: #0B0C10;
+            --gris-metal: #1F2833;
+            --amarillo-f1: #FFC300;
+        }
+
+        body {
+            background-color: var(--negro-carbon);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ------------------------------
+           NAVBAR
+        ------------------------------ */
+        .navbar {
+            background-color: var(--gris-metal) !important;
+            border-bottom: 3px solid var(--rojo-ferrari);
+        }
+        .navbar-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: var(--rojo-ferrari) !important;
+        }
+        .nav-link {
+            color: white !important;
+        }
+        .nav-link:hover {
+            color: var(--amarillo-f1) !important;
+        }
+
+        /* ------------------------------
+           TARJETAS ESTILO F1
+        ------------------------------ */
+        .card {
+            background-color: var(--gris-metal);
+            border-left: 4px solid var(--rojo-ferrari);
+            border-radius: 8px;
+            color: white;
+        }
+
+        /* ------------------------------
+           BOTONES PERSONALIZADOS
+        ------------------------------ */
+        .btn-primary, .btn-danger, .btn-success, .btn-warning {
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--rojo-ferrari);
+        }
+        .btn-primary:hover {
+            background-color: var(--rojo-ferrari-oscuro);
+        }
+
+        /* ------------------------------
+           ESTILO "F1"
+        ------------------------------ */
+        .f1-line {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rojo-ferrari), var(--amarillo-f1));
+            margin-bottom: 20px;
+        }
+
+        /* ------------------------------
+           CONTENIDO
+        ------------------------------ */
+        .container-main {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        /* Imagen de fondo opcional */
+        .hero {
+            background-image: url("/static/img/niki_bg.jpg");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg px-4">
+        <a class="navbar-brand" href="/">NIKI LAUDA</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#menu" aria-controls="menu" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ms-auto">
+
+                {% if user.is_authenticated %}
+
+                    <li class="nav-item">
+                        <a class="nav-link">Hola, {{ user.username }}</a>
+                    </li>
+
+                    <!-- SOLO ADMIN VE PANEL DE CONTROL -->
+                    {% if user.perfil.rol == "ADMIN" %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios/panel/">Panel Admin</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Salir</a>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Ingresar</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Línea decorativa estilo F1 -->
+    <div class="f1-line"></div>
+
+    <!-- CONTENIDO -->
+    <div class="container container-main">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

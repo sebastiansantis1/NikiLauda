@@ -1,0 +1,81 @@
+{% extends "core/base.html" %}
+
+{% block title %}Detalle de Usuario{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4">Detalle del Usuario</h2>
+
+<div class="card shadow-lg p-4 mb-4" style="max-width: 700px; margin:auto;">
+    
+    <h4 class="fw-bold mb-3">{{ usuario.user.username }}</h4>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <strong>RUT:</strong> {{ usuario.rut }}
+        </li>
+        <li class="list-group-item">
+            <strong>Rol:</strong> {{ usuario.get_rol_display }}
+        </li>
+        <li class="list-group-item">
+            <strong>Estado:</strong>
+            {% if usuario.activo %}
+                <span class="badge bg-success">Activo</span>
+            {% else %}
+                <span class="badge bg-danger">Inactivo</span>
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            <strong>Usuario Django:</strong> {{ usuario.user.username }}
+        </li>
+    </ul>
+
+    <div class="mt-4 d-flex flex-column gap-2">
+
+        <a href="{% url 'cambiar_estado_usuario' usuario.id %}" 
+           class="btn {% if usuario.activo %}btn-danger{% else %}btn-success{% endif %}">
+           {% if usuario.activo %}Desactivar{% else %}Activar{% endif %}
+        </a>
+
+        <a href="{% url 'cambiar_rol_usuario' usuario.id %}" class="btn btn-info">
+            Cambiar Rol
+        </a>
+
+        <a href="#" class="btn btn-warning disabled">
+            Resetear Contraseña (Próximamente)
+        </a>
+
+    </div>
+</div>
+
+{% if trabajos %}
+<div class="card shadow-lg p-4 mt-4">
+    <h4 class="fw-bold">Trabajos Asignados al Mecánico</h4>
+    <table class="table table-dark table-striped mt-3">
+        <thead class="table-light text-dark">
+            <tr>
+                <th>#</th>
+                <th>Vehículo</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in trabajos %}
+            <tr>
+                <td>{{ t.id }}</td>
+                <td>{{ t.vehiculo }}</td>
+                <td>{{ t.estado }}</td>
+                <td>{{ t.fecha_inicio|date:"d/m/Y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<div class="text-center mt-4">
+    <a href="{% url 'gestionar_usuarios' %}" class="btn btn-outline-light">⬅ Volver</a>
+</div>
+
+{% endblock %}

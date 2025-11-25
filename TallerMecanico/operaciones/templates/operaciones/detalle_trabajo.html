@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h2 class="fw-bold">Detalle del Trabajo</h2>
+    <hr>
+
+    <p><strong>Cliente:</strong> {{ trabajo.cliente.nombre }}</p>
+    <p><strong>Vehículo:</strong> {{ trabajo.vehiculo.patente }}</p>
+    <p><strong>Descripción:</strong> {{ trabajo.descripcion }}</p>
+    <p><strong>Mecánico:</strong> {{ trabajo.mecanico }}</p>
+    <p><strong>Zona:</strong> {{ trabajo.zona }}</p>
+    <p><strong>Estado:</strong> {{ trabajo.estado }}</p>
+    <p><strong>Fecha inicio:</strong> {{ trabajo.fecha_inicio }}</p>
+    <p><strong>Fecha fin:</strong> {{ trabajo.fecha_fin }}</p>
+
+    <a href="{% url 'lista_trabajos' %}" class="btn btn-secondary">⬅ Volver</a>
+
+</div>
+{% endblock %}

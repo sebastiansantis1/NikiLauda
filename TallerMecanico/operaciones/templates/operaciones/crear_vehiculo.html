@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+
+{% block title %}Crear Vehículo{% endblock %}
+
+{% block content %}
+<div class="card p-4 shadow-lg" style="max-width: 600px; margin: auto;">
+    <h3 class="fw-bold mb-4">Crear Vehículo</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if errors %}
+            <div class="alert alert-danger">
+                {{ errors }}
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Cliente</label>
+            <select name="cliente" class="form-control" required>
+                {% for c in clientes %}
+                    <option value="{{ c.id }}">{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Patente</label>
+            <input type="text" name="patente" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Marca</label>
+            <input type="text" name="marca" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Modelo</label>
+            <input type="text" name="modelo" class="form-control">
+        </div>
+
+        <button class="btn btn-success w-100">Guardar Vehículo</button>
+    </form>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{% url 'registrar_trabajo' %}" class="btn btn-outline-light">⬅ Volver</a>
+</div>
+{% endblock %}
