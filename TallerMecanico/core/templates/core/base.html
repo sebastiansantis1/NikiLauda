@@ -122,10 +122,111 @@
             color: #82C6FF !important;
         }
 
+
+                /* Mejorar legibilidad en formularios */
+        label, .form-label, .form-control-label {
+            color: #FFFFFF !important;   /* Blanco puro */
+            font-weight: 600;
+        }
+
+        /* Placeholder más visible en fondos oscuros */
+        ::placeholder {
+            color: #CCCCCC !important;
+            opacity: 1;
+        }
+
+
     </style>
 
     {% block extra_css %}{% endblock %}
 </head>
+
+
+
+<script>
+/* ===========================================================
+   SISTEMA COMPLETO DE INACTIVIDAD — F1 EDITION
+   =========================================================== */
+
+let timerInactividad;      // Timer general
+let timerAdvertencia;      // Timer para mostrar popup
+let cuentaRegresiva;       // Intervalo para countdown
+const LIMITE_MINUTOS = 10;     // Tiempo total
+const AVISO_SEGUNDOS = 30;     // Aviso antes del cierre
+const LIMITE_MS = LIMITE_MINUTOS * 60 * 1000;
+const AVISO_MS = LIMITE_MS - (AVISO_SEGUNDOS * 1000);
+
+const modal = document.getElementById("modalInactividad");
+const contador = document.getElementById("contadorInactividad");
+const btnSeguir = document.getElementById("btnSeguirActivo");
+
+
+/* -----------------------------------------------------------
+   Reiniciar temporizadores
+----------------------------------------------------------- */
+function reiniciarTimers() {
+    // Ocultar modal si estaba visible
+    modal.style.display = "none";
+
+    // Eliminar timers anteriores
+    clearTimeout(timerInactividad);
+    clearTimeout(timerAdvertencia);
+    clearInterval(cuentaRegresiva);
+
+    // Timer de advertencia (mostrar popup)
+    timerAdvertencia = setTimeout(() => {
+        mostrarAdvertencia();
+    }, AVISO_MS);
+
+    // Timer final — cerrar sesión
+    timerInactividad = setTimeout(() => {
+        window.location.href = "/logout/";
+    }, LIMITE_MS);
+}
+
+
+/* -----------------------------------------------------------
+   Mostrar popup con cuenta regresiva
+----------------------------------------------------------- */
+function mostrarAdvertencia() {
+    modal.style.display = "flex";
+    let tiempo = AVISO_SEGUNDOS;
+
+    contador.textContent = tiempo;
+
+    cuentaRegresiva = setInterval(() => {
+        tiempo--;
+        contador.textContent = tiempo;
+
+        if (tiempo <= 0) {
+            clearInterval(cuentaRegresiva);
+        }
+    }, 1000);
+}
+
+
+/* -----------------------------------------------------------
+   Eventos que reinician actividad
+----------------------------------------------------------- */
+const eventos = ["mousemove", "keydown", "scroll", "click", "touchstart", "touchmove"];
+eventos.forEach(ev => {
+    document.addEventListener(ev, reiniciarTimers);
+});
+
+
+/* -----------------------------------------------------------
+   Botón del popup → reinicia la actividad
+----------------------------------------------------------- */
+btnSeguir.addEventListener("click", () => {
+    reiniciarTimers();
+});
+
+
+/* -----------------------------------------------------------
+   Iniciar sistema al cargar
+----------------------------------------------------------- */
+reiniciarTimers();
+</script>
 
 <body>
 
@@ -181,6 +282,58 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     {% block extra_js %}{% endblock %}
+
+
+    <!-- =========================================== -->
+    <!-- POPUP ALERTA DE INACTIVIDAD (MODAL F1)      -->
+    <!-- =========================================== -->
+    <div id="modalInactividad" 
+        style="
+            display:none;
+            position:fixed;
+            top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.65);
+            backdrop-filter:blur(4px);
+            z-index:5000;
+            justify-content:center;
+            align-items:center;">
+        
+        <div style="
+            background:#1F2833;
+            border-left:5px solid var(--rojo-ferrari);
+            padding:25px;
+            border-radius:12px;
+            width:350px;
+            text-align:center;
+            color:white;
+            box-shadow:0 0 20px rgba(255,0,0,0.4);
+            font-family:Poppins;">
+            
+            <h3 style="font-family:Orbitron; color:var(--amarillo-f1);">
+                ⚠ Sesión por Expirar
+            </h3>
+            
+            <p class="mt-3">
+                Tu sesión se cerrará automáticamente en<br>
+                <span id="contadorInactividad" 
+                    style="font-size:2rem; color:#FF5959; font-weight:bold;">
+                    30
+                </span>
+                segundos.
+            </p>
+
+            <button id="btnSeguirActivo" 
+                    class="btn mt-3"
+                    style="
+                        width:100%;
+                        background:var(--rojo-ferrari);
+                        color:white;
+                        font-weight:600;">
+                Seguir Activo
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 
 from .forms import OrdenTrabajoForm
 from .models import OrdenTrabajo, Cliente, Vehiculo
@@ -120,3 +120,8 @@ def crear_vehiculo(request):
         return redirect("registrar_trabajo")
 
     return render(request, "operaciones/crear_vehiculo.html", {"clientes": clientes})
+
+def cargar_vehiculos(request):
+    cliente_id = request.GET.get("cliente")
+    vehiculos = Vehiculo.objects.filter(cliente_id=cliente_id).values("id", "patente")
+    return JsonResponse(list(vehiculos), safe=False)

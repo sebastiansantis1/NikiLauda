@@ -8,5 +8,7 @@ urlpatterns = [
     path("crear-cliente/", views.crear_cliente, name="crear_cliente"),
     path("crear-vehiculo/", views.crear_vehiculo, name="crear_vehiculo"),
     path("editar/<int:pk>/", views.editar_trabajo, name="editar_trabajo"),
+    path("ajax/cargar-vehiculos/", views.cargar_vehiculos, name="cargar_vehiculos"),
+
 
 ]

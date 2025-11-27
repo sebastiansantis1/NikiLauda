@@ -5,6 +5,11 @@
 
 {% block content %}
 
+<div class="d-flex gap-3 mb-4">
+    <a href="{% url 'crear_cliente' %}" class="btn btn-primary">➕ Crear Cliente</a>
+    <a href="{% url 'crear_vehiculo' %}" class="btn btn-warning">➕ Crear Vehículo</a>
+</div>
+
 <div class="f1-card" style="max-width: 700px; margin:auto;">
     <h2 class="fw-bold mb-4" style="font-family:'Orbitron';">
         🏁 Registrar Nuevo Trabajo
@@ -26,6 +31,30 @@
         <button class="f1-btn mt-3">Guardar Trabajo</button>
     </form>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const clienteSelect = document.getElementById("id_cliente");
+    const vehiculoSelect = document.getElementById("id_vehiculo");
+
+    clienteSelect.addEventListener("change", function () {
+        const clienteId = this.value;
+
+        fetch(`/operaciones/ajax/cargar-vehiculos/?cliente=${clienteId}`)
+            .then(response => response.json())
+            .then(data => {
+                vehiculoSelect.innerHTML = "";
+
+                data.forEach(function (vehiculo) {
+                    const option = document.createElement("option");
+                    option.value = vehiculo.id;
+                    option.textContent = vehiculo.patente;
+                    vehiculoSelect.appendChild(option);
+                });
+            });
+    });
+});
+</script>
 
 {% endblock %}
 

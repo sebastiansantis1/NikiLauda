@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.core.exceptions import ValidationError
+
 
 from core.models import PerfilUsuario
 from core.validators import validar_rut_chileno
@@ -140,6 +141,7 @@ def cambiar_rol_usuario(request, pk):
 def crear_usuario(request):
     admin = request.user.perfil
 
+    # Solo ADMIN
     if admin.rol != "ADMIN":
         return redirect("usuario_inactivo")
 
@@ -147,10 +149,13 @@ def crear_usuario(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         rut = request.POST.get("rut")
-        rol = request.POST.get("rol")
+        rol = request.POST.get("rol")  # ADMIN / ENCARGADO / MECANICO / CLIENTE
 
         errors = []
 
+        # -----------------------------
+        # Validaciones básicas
+        # -----------------------------
         if not username:
             errors.append("El nombre de usuario es obligatorio.")
         if not password:
@@ -158,39 +163,71 @@ def crear_usuario(request):
         if not rut:
             errors.append("El RUT es obligatorio.")
 
-        from django.contrib.auth.models import User
+        from django.contrib.auth.models import User, Group
         from core.models import PerfilUsuario
         from django.core.exceptions import ValidationError
+        from core.validators import validar_rut_chileno
 
-        # Validar rut real (tu función)
+        # -----------------------------
+        # Validar RUT chileno real
+        # -----------------------------
+        rut_normalizado = None
         try:
             rut_normalizado = validar_rut_chileno(rut)
         except ValidationError as e:
             errors.append(str(e))
 
-        # Validar duplicados
+        # Evita que rut_normalizado sea None
+        if rut_normalizado:
+            if PerfilUsuario.objects.filter(rut=rut_normalizado).exists():
+                errors.append("El RUT ya está registrado.")
+
+        # Usuario duplicado
         if User.objects.filter(username=username).exists():
-            errors.append("El usuario ya existe.")
-        if PerfilUsuario.objects.filter(rut=rut_normalizado).exists():
-            errors.append("El RUT ya está registrado.")
+            errors.append("El nombre de usuario ya existe.")
 
+        # Si hubo errores → mostrar formulario
         if errors:
-            return render(request, "core/crear_usuario.html", {"errors": errors})
+            return render(request, "core/crear_usuario.html", {
+                "errors": errors
+            })
 
-        # Crear usuario (NO crea perfil porque eliminamos la señal)
+        # -----------------------------
+        # Crear usuario
+        # -----------------------------
         user = User.objects.create_user(username=username, password=password)
 
-        # Crear perfil correctamente
-        PerfilUsuario.objects.create(
+        # -----------------------------
+        # Crear perfil manual
+        # -----------------------------
+        perfil = PerfilUsuario.objects.create(
             user=user,
             rut=rut_normalizado,
             rol=rol,
             activo=True
         )
 
+        # -----------------------------
+        # Asignar grupo según rol (crea si no existe)
+        # -----------------------------
+        mapa_grupos = {
+            "ADMIN": "ADMINISTRATIVOS",
+            "ENCARGADO": "ENCARGADOS",
+            "MECANICO": "MECANICOS",
+            "CLIENTE": "CLIENTES",
+        }
+
+        nombre_grupo = mapa_grupos.get(rol, "CLIENTES")
+
+        # get_or_create → si no existe, se crea automáticamente
+        grupo, creado = Group.objects.get_or_create(name=nombre_grupo)
+
+        user.groups.add(grupo)
+
         return redirect("gestionar_usuarios")
 
     return render(request, "core/crear_usuario.html")
+
 
 
 # ---------------------------------------------------------
