@@ -11,21 +11,23 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --rojo-ferrari: #D90429;
-            --rojo-ferrari-oscuro: #A3001F;
-            --negro-carbon: #0B0C10;
-            --gris-metal: #1F2833;
-            --amarillo-f1: #FFC300;
+            --rojo-ferrari: #d90429;
+            --rojo-ferrari-oscuro: #9e001e;
+            --negro-carbon: #0b0c10;
+            --gris-metal: #1f2833;
+            --gris-suave: #2b3643;
+            --amarillo-f1: #ffc300;
+            --texto-claro: #f2f2f2;
         }
 
         body {
             background-color: var(--negro-carbon);
-            color: white;
+            color: var(--texto-claro);
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
         }
@@ -34,307 +36,339 @@
         .sidebar {
             width: 250px;
             height: 100vh;
-            background-color: var(--gris-metal);
+            background: linear-gradient(180deg, var(--gris-metal), var(--negro-carbon));
             position: fixed;
             top: 0;
             left: 0;
             border-right: 3px solid var(--rojo-ferrari);
             padding-top: 20px;
             z-index: 1000;
+            box-shadow: 4px 0 8px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-200px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .sidebar .brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
             text-align: center;
+            color: var(--rojo-ferrari);
+            letter-spacing: 3px;
             margin-bottom: 30px;
-        }
-
-        .sidebar .brand img {
-            max-width: 180px;
-            filter: drop-shadow(0 0 3px black);
+            text-shadow: 0 0 8px var(--rojo-ferrari);
         }
 
         .sidebar a {
             display: block;
-            padding: 12px 25px;
-            color: #FFF;
+            padding: 14px 25px;
+            margin-bottom: 5px;
+            color: var(--texto-claro);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             border-left: 3px solid transparent;
-            transition: 0.2s;
+            transition: 0.25s;
+            font-weight: 500;
         }
 
         .sidebar a:hover {
-            background-color: #11141A;
+            background-color: var(--gris-suave);
             border-left: 3px solid var(--amarillo-f1);
             color: var(--amarillo-f1);
+            transform: translateX(5px);
         }
 
         /* CONTENIDO */
         .content {
-            margin-left: 250px;
+            margin-left: 260px;
             padding: 40px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        .card {
-            background-color: var(--gris-metal);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS F1 */
+        .f1-card {
+            background: var(--gris-metal);
             border-left: 4px solid var(--rojo-ferrari);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.25);
+            color: var(--texto-claro);
         }
 
+        .f1-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--amarillo-f1);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 6px rgba(255, 195, 0, 0.6);
+        }
+
+        /* BOTONES GENERALES */
         .btn-primary {
             background-color: var(--rojo-ferrari);
             border: none;
         }
-
         .btn-primary:hover {
             background-color: var(--rojo-ferrari-oscuro);
         }
 
-        /* ====== FIX VISIBILIDAD DEL TEXTO ====== */
-
-        /* Texto normal */
-        body, p, span, li, td {
-            color: #EAEAEA !important;  /* Gris claro elegante */
+        .btn-outline-light {
+            border-color: var(--texto-claro);
+            color: var(--texto-claro);
+        }
+        .btn-outline-light:hover {
+            background-color: var(--texto-claro);
+            color: var(--negro-carbon);
         }
 
-        /* Subtítulos o textos secundarios */
-        .text-muted, small {
-            color: #BFC7D5 !important; /* Gris medio visible */
+        /* TABLAS */
+        table.table-dark {
+            background-color: var(--gris-metal) !important;
+        }
+        table.table-dark td,
+        table.table-dark th {
+            color: var(--texto-claro) !important;
+        }
+        table.table-dark tbody tr:hover {
+            background-color: #323c4b !important;
         }
 
-        /* Encabezados */
-        h1, h2, h3, h4, h5, h6 {
-            color: #FFFFFF !important; /* Blanco puro */
+        .badge {
+            font-size: 0.85rem;
         }
 
-        /* Títulos estilo F1 */
-        .f1-title {
-            color: var(--amarillo-f1) !important;
-            text-shadow: 0 0 3px #000;
-        }
+        /* ===========================
+        LOADER F1 ANIMACIÓN
+    =========================== */
 
-        /* Enlaces */
-        a {
-            color: #4DA8FF !important; /* Azul brillante racing */
-            text-decoration: none;
-        }
+    #f1-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        a:hover {
-            color: #82C6FF !important;
-        }
+    .f1-track {
+        width: 100%;
+        height: 120px;
+        position: relative;
+        overflow: hidden;
+    }
 
+    .f1-car {
+        height: 100px;
+        position: absolute;
+        left: -200px;
+        animation: f1-run 2.2s ease-in-out forwards;
+        filter: drop-shadow(0 0 10px red);
+    }
 
-                /* Mejorar legibilidad en formularios */
-        label, .form-label, .form-control-label {
-            color: #FFFFFF !important;   /* Blanco puro */
-            font-weight: 600;
-        }
+    @keyframes f1-run {
+        0% { left: -250px; }
+        50% { left: 40%; transform: scale(1.05); }
+        100% { left: 120%; }
+    }
 
-        /* Placeholder más visible en fondos oscuros */
-        ::placeholder {
-            color: #CCCCCC !important;
-            opacity: 1;
-        }
+    /* ===========================
+    BOTONES LED FERRARI
+    =========================== */
 
+    .btn-f1 {
+        position: relative;
+        overflow: hidden;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: 0.3s ease;
+    }
+
+    .btn-f1::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        background: linear-gradient(
+            90deg,
+            #ff0000,
+            #ff8800,
+            #ffff00,
+            #ff8800,
+            #ff0000
+        );
+        background-size: 400%;
+        animation: ledMove 3s linear infinite;
+        z-index: -1;
+        border-radius: 10px;
+    }
+
+    @keyframes ledMove {
+        0% { background-position: 0%; }
+        100% { background-position: 400%; }
+    }
+
+    /* LOGO ANIMADO */
+    .logo-f1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: #ff0000;
+        letter-spacing: 3px;
+        text-shadow: 0 0 10px #ff0000;
+        animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+        0% { text-shadow: 0 0 6px #ff0000; }
+        50% { text-shadow: 0 0 22px #ff4d4d; }
+        100% { text-shadow: 0 0 6px #ff0000; }
+    }
+
+    /* HUMO AL PASAR MOUSE */
+    .f1-card-img {
+        position: relative;
+    }
+
+    .f1-smoke {
+        position: absolute;
+        bottom: 10px;
+        left: -40px;
+        width: 100px;
+        opacity: 0;
+        transition: 0.4s ease;
+        pointer-events: none;
+        filter: blur(4px);
+    }
+
+    .f1-card-img:hover .f1-smoke {
+        opacity: 0.8;
+        transform: translateX(-20px);
+    }
+
+    /* PIT STOP ANIMACIÓN */
+    .pitstop-container {
+        position: relative;
+        width: 100%;
+        height: 160px;
+        overflow: hidden;
+    }
+
+    .f1-pitcar {
+        position: absolute;
+        bottom: 0;
+        left: -300px;
+        height: 120px;
+        animation: pitstop 4s ease-in-out infinite;
+    }
+
+    .f1-pit-lights {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        width: 120px;
+        height: 40px;
+        background: radial-gradient(circle, rgba(255,255,0,0.8), transparent);
+        transform: translateX(-50%);
+        opacity: 0;
+        animation: pitlights 4s ease-in-out infinite;
+    }
+
+    @keyframes pitstop {
+        0% { left: -300px; }
+        30% { left: 35%; }
+        50% { left: 35%; }
+        100% { left: 120%; }
+    }
+
+    @keyframes pitlights {
+        0%, 30%, 100% { opacity: 0; }
+        40%, 45% { opacity: 1; }
+    }
 
     </style>
 
     {% block extra_css %}{% endblock %}
 </head>
 
-
-
-<script>
-/* ===========================================================
-   SISTEMA COMPLETO DE INACTIVIDAD — F1 EDITION
-   =========================================================== */
-
-let timerInactividad;      // Timer general
-let timerAdvertencia;      // Timer para mostrar popup
-let cuentaRegresiva;       // Intervalo para countdown
-const LIMITE_MINUTOS = 10;     // Tiempo total
-const AVISO_SEGUNDOS = 30;     // Aviso antes del cierre
-const LIMITE_MS = LIMITE_MINUTOS * 60 * 1000;
-const AVISO_MS = LIMITE_MS - (AVISO_SEGUNDOS * 1000);
-
-const modal = document.getElementById("modalInactividad");
-const contador = document.getElementById("contadorInactividad");
-const btnSeguir = document.getElementById("btnSeguirActivo");
-
-
-/* -----------------------------------------------------------
-   Reiniciar temporizadores
------------------------------------------------------------ */
-function reiniciarTimers() {
-    // Ocultar modal si estaba visible
-    modal.style.display = "none";
-
-    // Eliminar timers anteriores
-    clearTimeout(timerInactividad);
-    clearTimeout(timerAdvertencia);
-    clearInterval(cuentaRegresiva);
-
-    // Timer de advertencia (mostrar popup)
-    timerAdvertencia = setTimeout(() => {
-        mostrarAdvertencia();
-    }, AVISO_MS);
-
-    // Timer final — cerrar sesión
-    timerInactividad = setTimeout(() => {
-        window.location.href = "/logout/";
-    }, LIMITE_MS);
-}
-
-
-/* -----------------------------------------------------------
-   Mostrar popup con cuenta regresiva
------------------------------------------------------------ */
-function mostrarAdvertencia() {
-    modal.style.display = "flex";
-    let tiempo = AVISO_SEGUNDOS;
-
-    contador.textContent = tiempo;
-
-    cuentaRegresiva = setInterval(() => {
-        tiempo--;
-        contador.textContent = tiempo;
-
-        if (tiempo <= 0) {
-            clearInterval(cuentaRegresiva);
-        }
-    }, 1000);
-}
-
-
-/* -----------------------------------------------------------
-   Eventos que reinician actividad
------------------------------------------------------------ */
-const eventos = ["mousemove", "keydown", "scroll", "click", "touchstart", "touchmove"];
-eventos.forEach(ev => {
-    document.addEventListener(ev, reiniciarTimers);
-});
-
-
-/* -----------------------------------------------------------
-   Botón del popup → reinicia la actividad
------------------------------------------------------------ */
-btnSeguir.addEventListener("click", () => {
-    reiniciarTimers();
-});
-
-
-/* -----------------------------------------------------------
-   Iniciar sistema al cargar
------------------------------------------------------------ */
-reiniciarTimers();
-</script>
-
 <body>
+
+    <!-- ANIMACIÓN AUTO F1 -->
+    <div id="f1-loader">
+        <div class="f1-track">
+            <img src="/static/img/f1_loader.png" class="f1-car" alt="F1">
+        </div>
+    </div>
 
     <!-- SIDEBAR -->
     <div class="sidebar">
-
-        <!-- LOGO -->
-        <div class="brand">
-            <img src="/static/img/logo_nikilauda.svg" alt="Niki Lauda Taller">
-        </div>
+        <div class="brand logo-f1">NIKI LAUDA</div>
 
         <a href="/"><i class="bi bi-house-fill me-2"></i> Inicio</a>
-
         <a href="{% url 'registrar_trabajo' %}">
             <i class="bi bi-clipboard-plus me-2"></i> Registrar Trabajo
         </a>
-
         <a href="{% url 'lista_trabajos' %}">
             <i class="bi bi-list-task me-2"></i> Ver Trabajos
         </a>
 
         {% if user.is_authenticated and user.perfil.rol == "ADMIN" %}
-        <a href="{% url 'gestionar_usuarios' %}">
-            <i class="bi bi-speedometer2 me-2"></i> Panel Admin
-        </a>
-
-        <a href="{% url 'gestionar_usuarios' %}">
-            <i class="bi bi-people-fill me-2"></i> Usuarios
-        </a>
-
-        <a href="{% url 'crear_usuario' %}">
-            <i class="bi bi-person-plus-fill me-2"></i> Crear Usuario
-        </a>
+            <a href="{% url 'gestionar_usuarios' %}">
+                <i class="bi bi-speedometer2 me-2"></i> Panel Admin
+            </a>
+            <a href="{% url 'crear_usuario' %}">
+                <i class="bi bi-person-plus-fill me-2"></i> Crear Usuario
+            </a>
         {% endif %}
 
         {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
-        </a>
+            <a href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+            </a>
         {% else %}
-        <a href="{% url 'login' %}">
-            <i class="bi bi-box-arrow-in-right me-2"></i> Ingresar
-        </a>
+            <a href="{% url 'login' %}">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Ingresar
+            </a>
         {% endif %}
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO -->
     <div class="content">
         {% block content %}{% endblock %}
     </div>
 
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            const loader = document.getElementById("f1-loader");
+            loader.style.opacity = "0";
+            loader.style.transition = "opacity 0.8s ease";
+
+            setTimeout(() => loader.remove(), 800);
+        }, 2200); // duración de la animación
+    });
+    </script>
+
     {% block extra_js %}{% endblock %}
-
-
-    <!-- =========================================== -->
-    <!-- POPUP ALERTA DE INACTIVIDAD (MODAL F1)      -->
-    <!-- =========================================== -->
-    <div id="modalInactividad" 
-        style="
-            display:none;
-            position:fixed;
-            top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.65);
-            backdrop-filter:blur(4px);
-            z-index:5000;
-            justify-content:center;
-            align-items:center;">
-        
-        <div style="
-            background:#1F2833;
-            border-left:5px solid var(--rojo-ferrari);
-            padding:25px;
-            border-radius:12px;
-            width:350px;
-            text-align:center;
-            color:white;
-            box-shadow:0 0 20px rgba(255,0,0,0.4);
-            font-family:Poppins;">
-            
-            <h3 style="font-family:Orbitron; color:var(--amarillo-f1);">
-                ⚠ Sesión por Expirar
-            </h3>
-            
-            <p class="mt-3">
-                Tu sesión se cerrará automáticamente en<br>
-                <span id="contadorInactividad" 
-                    style="font-size:2rem; color:#FF5959; font-weight:bold;">
-                    30
-                </span>
-                segundos.
-            </p>
-
-            <button id="btnSeguirActivo" 
-                    class="btn mt-3"
-                    style="
-                        width:100%;
-                        background:var(--rojo-ferrari);
-                        color:white;
-                        font-weight:600;">
-                Seguir Activo
-            </button>
-        </div>
-    </div>
-
 </body>
 </html>
+
+
 
 

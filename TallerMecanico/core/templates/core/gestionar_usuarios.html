@@ -1,77 +1,20 @@
 {% extends "core/base.html" %}
-
 {% block title %}Gestión de Usuarios{% endblock %}
 
 {% block content %}
 
-<h1 class="fw-bold mb-4" style="font-family:'Orbitron';">
-    <i class="bi bi-speedometer2"></i> Panel Administrativo
-</h1>
+<h2 class="f1-title mb-3">👥 Gestión de Usuarios</h2>
+<p class="mb-4">Administra el estado, rol y detalle de cada usuario del sistema.</p>
 
-<!-- TARJETAS DE ESTADÍSTICAS F1 -->
-<div class="row mb-5">
-
-    <div class="col-md-4 mb-3">
-        <div class="card p-4 text-center shadow">
-            <h2 class="fw-bold text-warning">{{ total_usuarios }}</h2>
-            <p class="fs-5">Usuarios Totales</p>
-            <i class="bi bi-people-fill fs-1 text-warning"></i>
-        </div>
-    </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card p-4 text-center shadow">
-            <h2 class="fw-bold text-success">{{ usuarios_activos }}</h2>
-            <p class="fs-5">Activos</p>
-            <i class="bi bi-check-circle-fill fs-1 text-success"></i>
-        </div>
-    </div>
-
-    <div class="col-md-4 mb-3">
-        <div class="card p-4 text-center shadow">
-            <h2 class="fw-bold text-danger">{{ usuarios_inactivos }}</h2>
-            <p class="fs-5">Inactivos</p>
-            <i class="bi bi-x-circle-fill fs-1 text-danger"></i>
-        </div>
-    </div>
-
-</div>
-
-<!-- ACCIONES RÁPIDAS -->
-<h3 class="fw-bold mb-3" style="font-family:'Orbitron';">
-    <i class="bi bi-lightning-charge-fill"></i> Acciones Rápidas
-</h3>
-
-<div class="row mb-5">
-
-    <div class="col-md-4 mb-3">
-        <a href="{% url 'crear_usuario' %}" class="btn btn-primary w-100 py-3 fs-5">
+<div class="f1-card">
+    <div class="d-flex justify-content-between mb-3">
+        <h5 class="mb-0">Listado de Usuarios</h5>
+        <a href="{% url 'crear_usuario' %}" class="btn btn-primary btn-sm">
             <i class="bi bi-person-plus-fill"></i> Crear Usuario
         </a>
     </div>
 
-    <div class="col-md-4 mb-3">
-        <a href="{% url 'lista_trabajos' %}" class="btn btn-warning text-dark w-100 py-3 fs-5">
-            <i class="bi bi-list-task"></i> Ver Trabajos
-        </a>
-    </div>
-
-    <div class="col-md-4 mb-3">
-        <a href="{% url 'registrar_trabajo' %}" class="btn btn-success w-100 py-3 fs-5">
-            <i class="bi bi-clipboard-plus"></i> Registrar Trabajo
-        </a>
-    </div>
-
-</div>
-
-<!-- TABLA ESTILIZADA -->
-<div class="card shadow p-4">
-
-    <h3 class="fw-bold mb-3" style="font-family:'Orbitron';">
-        <i class="bi bi-people-fill"></i> Lista de Usuarios
-    </h3>
-
-    <table class="table table-dark table-striped align-middle">
+    <table class="table table-dark table-striped align-middle mb-0">
         <thead class="table-light text-dark">
             <tr>
                 <th>#</th>
@@ -79,27 +22,16 @@
                 <th>RUT</th>
                 <th>Rol</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <th style="width:220px;">Acciones</th>
             </tr>
         </thead>
-
         <tbody>
-
             {% for u in usuarios %}
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ u.user.username }}</td>
                 <td>{{ u.rut }}</td>
-
-                <td>
-                    <span class="badge 
-                        {% if u.rol == 'ADMIN' %}bg-danger
-                        {% elif u.rol == 'ENCARGADO' %}bg-warning text-dark
-                        {% else %}bg-info text-dark{% endif %}">
-                        {{ u.get_rol_display }}
-                    </span>
-                </td>
-
+                <td>{{ u.get_rol_display }}</td>
                 <td>
                     {% if u.activo %}
                         <span class="badge bg-success">Activo</span>
@@ -107,38 +39,33 @@
                         <span class="badge bg-danger">Inactivo</span>
                     {% endif %}
                 </td>
-
                 <td>
-                    <a href="{% url 'detalle_usuario' u.id %}" class="btn btn-sm btn-secondary me-1">
+                    <a href="{% url 'detalle_usuario' u.id %}" class="btn btn-sm btn-outline-light">
                         <i class="bi bi-eye"></i>
                     </a>
-
-                    <a href="{% url 'cambiar_rol_usuario' u.id %}" class="btn btn-sm btn-warning me-1">
-                        <i class="bi bi-shield-lock-fill"></i>
+                    <a href="{% url 'cambiar_rol_usuario' u.id %}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-person-gear"></i>
                     </a>
-
-                    <a href="{% url 'cambiar_estado_usuario' u.id %}" 
+                    <a href="{% url 'cambiar_estado_usuario' u.id %}"
                        class="btn btn-sm {% if u.activo %}btn-danger{% else %}btn-success{% endif %}">
-                        {% if u.activo %}
-                            <i class="bi bi-x-circle"></i>
-                        {% else %}
-                            <i class="bi bi-check-circle"></i>
-                        {% endif %}
+                        {% if u.activo %}Desactivar{% else %}Activar{% endif %}
                     </a>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="text-center py-4 text-muted">
-                    <i class="bi bi-info-circle"></i> No hay usuarios registrados.
+                <td colspan="6" class="text-center text-muted py-4">
+                    No hay usuarios registrados.
                 </td>
             </tr>
             {% endfor %}
-
         </tbody>
     </table>
-
 </div>
+
+<a href="{% url 'home' %}" class="btn btn-outline-light mt-3">
+    ⬅ Volver al Inicio
+</a>
 
 {% endblock %}
 

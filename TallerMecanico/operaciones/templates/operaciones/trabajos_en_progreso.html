@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+{% block title %}Trabajos en Progreso{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">Trabajos en Progreso</h3>
+
+<table class="table table-dark table-striped">
+    <thead class="table-light text-dark">
+        <tr>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>Vehículo</th>
+            <th>Estado</th>
+            <th>Mecánico</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for t in trabajos %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ t.cliente }}</td>
+            <td>{{ t.vehiculo.patente }}</td>
+            <td>{{ t.estado }}</td>
+            <td>{{ t.mecanico|default:"-" }}</td>
+            <td>
+                <a class="btn btn-sm btn-info" href="{% url 'detalle_trabajo' t.pk %}">
+                    Ver Historial
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="6" class="text-center">No hay trabajos en curso.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

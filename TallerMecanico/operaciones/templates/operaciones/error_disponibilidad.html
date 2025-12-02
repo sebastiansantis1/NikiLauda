@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+
+{% block title %}Sin Disponibilidad{% endblock %}
+
+{% block content %}
+
+<div class="card bg-dark text-light p-5 shadow-lg border-danger text-center">
+
+    <h2 class="fw-bold text-danger mb-3">
+        ⚠ No es posible crear un nuevo trabajo
+    </h2>
+
+    <p class="fs-4">{{ mensaje }}</p>
+
+    {% if detalle %}
+    <p class="text-secondary">{{ detalle }}</p>
+    {% endif %}
+
+    <a href="{% url 'lista_trabajos' %}" class="btn btn-outline-warning mt-4">
+        ⬅ Volver a la Lista de Trabajos
+    </a>
+
+</div>
+
+{% endblock %}

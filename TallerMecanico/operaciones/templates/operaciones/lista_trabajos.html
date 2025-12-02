@@ -4,11 +4,28 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold"><i class="bi bi-list-ul text-info"></i> Trabajos Registrados</h3>
+<h2 class="fw-bold mb-4">📋 Lista de Trabajos</h2>
 
-    <a href="{% url 'registrar_trabajo' %}" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Nuevo Trabajo
+<!-- Filtros -->
+<div class="d-flex gap-2 mb-4">
+    <a href="{% url 'lista_trabajos' %}" class="btn btn-secondary btn-sm">
+        Todos
+    </a>
+
+    <a href="?estado=Pendiente" class="btn btn-warning btn-sm">
+        Pendientes
+    </a>
+
+    <a href="?estado=En Proceso" class="btn btn-primary btn-sm">
+        En Proceso
+    </a>
+
+    <a href="?estado=Finalizado" class="btn btn-success btn-sm">
+        Finalizados
+    </a>
+
+    <a href="{% url 'dashboard_encargado' %}" class="btn btn-danger btn-sm ms-3">
+        🏁 Panel Encargado
     </a>
 </div>
 
@@ -21,8 +38,9 @@
                 <th>Vehículo</th>
                 <th>Descripción</th>
                 <th>Estado</th>
-                <th>Fecha Inicio</th>
-                <th>Acciones</th>
+                <th>Mecánico</th>
+                <th>Fecha</th>
+                <th>Acción</th>
             </tr>
         </thead>
 
@@ -31,7 +49,7 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ t.cliente }}</td>
-                <td>{{ t.vehiculo }}</td>
+                <td>{{ t.vehiculo.patente }}</td>
 
                 <td style="max-width: 300px;">
                     {{ t.descripcion }}
@@ -40,42 +58,38 @@
                 <td>
                     {% if t.estado == "Pendiente" %}
                         <span class="badge bg-warning text-dark">Pendiente</span>
+
                     {% elif t.estado == "En Proceso" %}
                         <span class="badge bg-primary">En Proceso</span>
+
                     {% else %}
                         <span class="badge bg-success">Finalizado</span>
                     {% endif %}
                 </td>
 
-                <td>
-                    {% if t.fecha_inicio %}
-                        {{ t.fecha_inicio|date:"d/m/Y" }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
+                <td>{{ t.mecanico|default:"-" }}</td>
+
+                <td>{{ t.creado|date:"d/m/Y H:i" }}</td>
 
                 <td>
-                    <a href="{% url 'editar_trabajo' t.id %}" class="btn btn-sm btn-warning">
-                        ✏ Editar
+                    <a href="{% url 'detalle_trabajo' t.pk %}" 
+                       class="btn btn-sm btn-outline-info">
+                        Ver Historial
                     </a>
                 </td>
             </tr>
 
             {% empty %}
             <tr>
-                <td colspan="7" class="text-center text-muted py-4">
-                    <i class="bi bi-info-circle"></i> No hay trabajos registrados
+                <td colspan="8" class="text-center text-muted py-4">
+                    <i class="bi bi-info-circle"></i> No hay trabajos registrados.
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
-    <a href="/" class="btn btn-outline-secondary mb-3">
-        ⬅ Volver al Inicio
-    </a>
 </div>
 
 {% endblock %}
+
 

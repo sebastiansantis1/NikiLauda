@@ -9,6 +9,7 @@ urlpatterns = [
     path("crear-vehiculo/", views.crear_vehiculo, name="crear_vehiculo"),
     path("editar/<int:pk>/", views.editar_trabajo, name="editar_trabajo"),
     path("ajax/cargar-vehiculos/", views.cargar_vehiculos, name="cargar_vehiculos"),
-
+    path('trabajos/en-progreso/', views.trabajos_en_progreso, name='trabajos_en_progreso'),
+    path('encargado/dashboard/', views.dashboard_encargado, name='dashboard_encargado'),
 
 ]

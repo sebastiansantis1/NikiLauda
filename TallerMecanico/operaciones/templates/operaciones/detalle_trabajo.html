@@ -1,22 +1,123 @@
 {% extends "core/base.html" %}
 {% load static %}
 
+{% block title %}Historial del Trabajo{% endblock %}
+
 {% block content %}
-<div class="container py-4">
 
-    <h2 class="fw-bold">Detalle del Trabajo</h2>
-    <hr>
+<h2 class="fw-bold mb-4">
+    📝 Detalle del Trabajo OT {{ trabajo.pk }}
+</h2>
 
-    <p><strong>Cliente:</strong> {{ trabajo.cliente.nombre }}</p>
-    <p><strong>Vehículo:</strong> {{ trabajo.vehiculo.patente }}</p>
-    <p><strong>Descripción:</strong> {{ trabajo.descripcion }}</p>
-    <p><strong>Mecánico:</strong> {{ trabajo.mecanico }}</p>
-    <p><strong>Zona:</strong> {{ trabajo.zona }}</p>
-    <p><strong>Estado:</strong> {{ trabajo.estado }}</p>
-    <p><strong>Fecha inicio:</strong> {{ trabajo.fecha_inicio }}</p>
-    <p><strong>Fecha fin:</strong> {{ trabajo.fecha_fin }}</p>
+<!-- TARJETA INFORMACIÓN GENERAL -->
+<div class="card p-4 mb-4 shadow-lg border-danger">
+    <h4 class="text-warning">Información General</h4>
 
-    <a href="{% url 'lista_trabajos' %}" class="btn btn-secondary">⬅ Volver</a>
+    <ul class="list-group mt-3">
+        <li class="list-group-item bg-dark text-light">
+            <strong>Cliente:</strong> {{ trabajo.cliente }}
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Vehículo:</strong> {{ trabajo.vehiculo.marca }} - {{ trabajo.vehiculo.patente }}
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Descripción:</strong> {{ trabajo.descripcion }}
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Fecha Inicio:</strong> 
+            {% if trabajo.fecha_inicio %}
+                {{ trabajo.fecha_inicio|date:"d/m/Y H:i" }}
+            {% else %}
+                <span class="text-secondary">Sin definir</span>
+            {% endif %}
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Zona:</strong> {{ trabajo.zona|default:"-" }}
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Mecánico:</strong> {{ trabajo.mecanico|default:"-" }}
+        </li>
+        <li class="list-group-item bg-dark text-light">
+            <strong>Estado Actual:</strong>
+            {% if trabajo.estado == "Pendiente" %}
+                <span class="badge bg-warning text-dark">Pendiente</span>
+            {% elif trabajo.estado == "En Proceso" %}
+                <span class="badge bg-primary">En Proceso</span>
+            {% else %}
+                <span class="badge bg-success">Finalizado</span>
+            {% endif %}
+        </li>
+    </ul>
+
+    <a class="btn btn-danger mt-3" href="{% url 'editar_trabajo' trabajo.pk %}">
+        ✏ Editar Trabajo
+    </a>
+</div>
+
+<!-- HISTORIAL -->
+<h3 class="fw-bold mb-3">⏱ Historial de Cambios</h3>
+
+{% if historial %}
+<div class="timeline">
+
+    {% for h in historial %}
+    <div class="timeline-item">
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-content card p-3 bg-dark text-light border-danger">
+            <h5 class="text-warning mb-1">{{ h.fecha|date:"d/m/Y H:i" }}</h5>
+
+            <p class="mb-1">{{ h.descripcion }}</p>
+
+            <small class="text-secondary">
+                Realizado por: {{ h.usuario.username }}
+            </small>
+        </div>
+    </div>
+    {% endfor %}
 
 </div>
+{% else %}
+<div class="alert alert-secondary">
+    Aún no existen registros en el historial.
+</div>
+{% endif %}
+
+<a href="{% url 'lista_trabajos' %}" class="btn btn-outline-light mt-4">
+    ⬅ Volver
+</a>
+
+
+<style>
+.timeline {
+    position: relative;
+    margin-left: 30px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    width: 4px;
+    height: 100%;
+    background-color: #ff1e00;
+}
+
+.timeline-item {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: #ff1e00;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+</style>
+
 {% endblock %}
+

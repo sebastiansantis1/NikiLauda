@@ -1,80 +1,78 @@
 {% extends "core/base.html" %}
-
 {% block title %}Detalle de Usuario{% endblock %}
 
 {% block content %}
 
-<h2 class="fw-bold mb-4">Detalle del Usuario</h2>
+<div class="f1-card mb-4" style="max-width:700px;margin:auto;">
+    <h2 class="f1-title mb-3">📇 Detalle del Usuario</h2>
 
-<div class="card shadow-lg p-4 mb-4" style="max-width: 700px; margin:auto;">
-    
-    <h4 class="fw-bold mb-3">{{ usuario.user.username }}</h4>
-
-    <ul class="list-group">
-        <li class="list-group-item">
-            <strong>RUT:</strong> {{ usuario.rut }}
-        </li>
-        <li class="list-group-item">
-            <strong>Rol:</strong> {{ usuario.get_rol_display }}
-        </li>
-        <li class="list-group-item">
-            <strong>Estado:</strong>
-            {% if usuario.activo %}
-                <span class="badge bg-success">Activo</span>
-            {% else %}
-                <span class="badge bg-danger">Inactivo</span>
-            {% endif %}
-        </li>
-        <li class="list-group-item">
-            <strong>Usuario Django:</strong> {{ usuario.user.username }}
-        </li>
-    </ul>
-
-    <div class="mt-4 d-flex flex-column gap-2">
-
-        <a href="{% url 'cambiar_estado_usuario' usuario.id %}" 
-           class="btn {% if usuario.activo %}btn-danger{% else %}btn-success{% endif %}">
-           {% if usuario.activo %}Desactivar{% else %}Activar{% endif %}
-        </a>
-
-        <a href="{% url 'cambiar_rol_usuario' usuario.id %}" class="btn btn-info">
-            Cambiar Rol
-        </a>
-
-        <a href="#" class="btn btn-warning disabled">
-            Resetear Contraseña (Próximamente)
-        </a>
-
-    </div>
+    <p class="mb-1">
+        <strong>Usuario Django:</strong> {{ usuario.user.username }}
+    </p>
+    <p class="mb-1">
+        <strong>RUT:</strong> {{ usuario.rut }}
+    </p>
+    <p class="mb-1">
+        <strong>Rol:</strong> <span class="badge bg-info">{{ usuario.get_rol_display }}</span>
+    </p>
+    <p class="mb-1">
+        <strong>Estado:</strong>
+        {% if usuario.activo %}
+            <span class="badge bg-success">Activo</span>
+        {% else %}
+            <span class="badge bg-danger">Inactivo</span>
+        {% endif %}
+    </p>
 </div>
 
 {% if trabajos %}
-<div class="card shadow-lg p-4 mt-4">
-    <h4 class="fw-bold">Trabajos Asignados al Mecánico</h4>
-    <table class="table table-dark table-striped mt-3">
+<div class="f1-card" style="max-width:900px;margin:auto;">
+    <h4 class="mb-3">Trabajos Asignados (Mecánico)</h4>
+
+    <table class="table table-dark table-striped align-middle mb-0">
         <thead class="table-light text-dark">
             <tr>
                 <th>#</th>
+                <th>Cliente</th>
                 <th>Vehículo</th>
                 <th>Estado</th>
-                <th>Fecha</th>
+                <th>Fecha Inicio</th>
             </tr>
         </thead>
         <tbody>
             {% for t in trabajos %}
             <tr>
-                <td>{{ t.id }}</td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ t.cliente }}</td>
                 <td>{{ t.vehiculo }}</td>
-                <td>{{ t.estado }}</td>
-                <td>{{ t.fecha_inicio|date:"d/m/Y" }}</td>
+                <td>
+                    {% if t.estado == "Pendiente" %}
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                    {% elif t.estado == "En Proceso" %}
+                        <span class="badge bg-primary">En Proceso</span>
+                    {% else %}
+                        <span class="badge bg-success">Finalizado</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if t.fecha_inicio %}
+                        {{ t.fecha_inicio|date:"d/m/Y H:i" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+{% else %}
+<div class="f1-card" style="max-width:700px;margin:auto;">
+    <p class="mb-0 text-muted">Este usuario no tiene trabajos asignados.</p>
+</div>
 {% endif %}
 
-<div class="text-center mt-4">
+<div class="text-center mt-3">
     <a href="{% url 'gestionar_usuarios' %}" class="btn btn-outline-light">⬅ Volver</a>
 </div>
 

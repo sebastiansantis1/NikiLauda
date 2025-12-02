@@ -1,10 +1,10 @@
 {% extends "core/base.html" %}
-
 {% block title %}Crear Usuario{% endblock %}
 
 {% block content %}
-<div class="card shadow-lg p-4" style="max-width: 600px; margin:auto;">
-    <h3 class="fw-bold mb-4">Crear Nuevo Usuario</h3>
+
+<div class="f1-card" style="max-width:600px;margin:auto;">
+    <h2 class="f1-title mb-3">➕ Crear Nuevo Usuario</h2>
 
     {% if errors %}
         <div class="alert alert-danger">
@@ -20,34 +20,41 @@
         {% csrf_token %}
 
         <div class="mb-3">
-            <label class="form-label fw-semibold">Nombre de Usuario</label>
-            <input type="text" name="username" class="form-control" required>
+            <label class="form-label">Nombre de Usuario</label>
+            <input type="text" name="username" class="form-control"
+                   placeholder="ej: mecanico1" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fw-semibold">Contraseña</label>
-            <input type="password" name="password" class="form-control" required>
+            <label class="form-label">Contraseña</label>
+            <input type="password" name="password" class="form-control"
+                   placeholder="Ingresa una contraseña" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fw-semibold">RUT</label>
-            <input type="text" name="rut" class="form-control" placeholder="12345678-9" required>
+            <label class="form-label">RUT</label>
+            <input type="text" name="rut" class="form-control"
+                   placeholder="12345678-9" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label fw-semibold">Rol</label>
+            <label class="form-label">Rol</label>
             <select name="rol" class="form-select">
                 <option value="ADMIN">Administrador</option>
-                <option value="ENCARGADO">Encargado</option>
+                <option value="ENCARGADO">Encargado del Taller</option>
                 <option value="MECANICO">Mecánico</option>
             </select>
         </div>
 
-        <button class="btn btn-primary w-100 mt-3">Crear Usuario</button>
+        <button class="btn btn-primary w-100 mt-3">
+            Crear Usuario
+        </button>
     </form>
 </div>
 
 <div class="text-center mt-3">
     <a href="{% url 'gestionar_usuarios' %}" class="btn btn-outline-light">⬅ Volver</a>
 </div>
+
 {% endblock %}
+

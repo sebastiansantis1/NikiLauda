@@ -43,6 +43,19 @@ class OrdenTrabajo(models.Model):
 
     def __str__(self):
         return f"OT {self.pk} - {self.vehiculo.patente}"    
+    
+    
+    
+
+class HistorialTrabajo(models.Model):
+    trabajo = models.ForeignKey(OrdenTrabajo, on_delete=models.CASCADE, related_name="historial")
+    descripcion = models.TextField()
+    fecha = models.DateTimeField(auto_now_add=True)
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f"Historial OT {self.trabajo.pk} - {self.fecha}"
+
 
 
 
