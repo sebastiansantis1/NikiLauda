@@ -147,161 +147,291 @@
         }
 
         /* ===========================
-        LOADER F1 ANIMACIÓN
-    =========================== */
+           LOADER F1 ANIMACIÓN
+        =========================== */
 
-    #f1-loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+        #f1-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .f1-track {
-        width: 100%;
-        height: 120px;
-        position: relative;
-        overflow: hidden;
-    }
+        .f1-track {
+            width: 100%;
+            height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .f1-car {
-        height: 100px;
-        position: absolute;
-        left: -200px;
-        animation: f1-run 2.2s ease-in-out forwards;
-        filter: drop-shadow(0 0 10px red);
-    }
+        .f1-car {
+            height: 100px;
+            position: absolute;
+            left: -200px;
+            animation: f1-run 2.2s ease-in-out forwards;
+            filter: drop-shadow(0 0 10px red);
+        }
 
-    @keyframes f1-run {
-        0% { left: -250px; }
-        50% { left: 40%; transform: scale(1.05); }
-        100% { left: 120%; }
-    }
+        @keyframes f1-run {
+            0% { left: -250px; }
+            50% { left: 40%; transform: scale(1.05); }
+            100% { left: 120%; }
+        }
 
-    /* ==========================================
-    BOTÓN F1 — GLOW + CHISPAZO FERRARI
-    ========================================== */
+        /* ==========================================
+           BOTÓN F1 — GLOW + CHISPAZO FERRARI
+        ========================================== */
 
-    /* Estilo base */
-    .btn-f1 {
-        position: relative;
-        display: inline-block;
-        font-weight: 600;
-        letter-spacing: 1px;
-        border-radius: 12px;
-        transition: all 0.25s ease;
-        overflow: hidden;
-        z-index: 1;
-        box-shadow:
-            0 0 8px rgba(255,0,0,0.4),
-            inset 0 0 8px rgba(255,0,0,0.3);
-    }
+        .btn-f1 {
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow:
+                0 0 8px rgba(255,0,0,0.4),
+                inset 0 0 8px rgba(255,0,0,0.3);
+        }
 
-    /* Glow al pasar el mouse */
-    .btn-f1:hover {
-        transform: translateY(-4px);
-        box-shadow:
-            0 0 12px rgba(255,0,0,0.8),
-            0 0 25px rgba(255,40,0,0.7),
-            0 0 40px rgba(255,80,0,0.6),
-            inset 0 0 12px rgba(255,0,0,0.5);
-    }
+        .btn-f1:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 0 12px rgba(255,0,0,0.8),
+                0 0 25px rgba(255,40,0,0.7),
+                0 0 40px rgba(255,80,0,0.6),
+                inset 0 0 12px rgba(255,0,0,0.5);
+        }
 
-    /* Borde iluminado */
-    .btn-f1::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 12px;
-        border: 2px solid rgba(255,150,0,0.50);
-        opacity: 0;
-        transition: opacity 0.25s ease;
-    }
+        .btn-f1::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            border: 2px solid rgba(255,150,0,0.50);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
 
-    .btn-f1:hover::after {
-        opacity: 1;
-    }
+        .btn-f1:hover::after {
+            opacity: 1;
+        }
 
-    /* ==========================================
-    CHISPAZO DIAGONAL — EFECTO PIT STOP
-    ========================================== */
-    .btn-f1::before {
-        content: "";
-        position: absolute;
-        top: -80%;
-        left: -40%;
-        width: 40%;
-        height: 250%;
-        background: linear-gradient(
-            120deg,
-            rgba(255,255,255,0) 0%,
-            rgba(255,200,100,0.45) 50%,
-            rgba(255,255,255,0) 100%
-        );
-        transform: rotate(25deg);
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        pointer-events: none;
-    }
+        /* CHISPAZO */
+        .btn-f1::before {
+            content: "";
+            position: absolute;
+            top: -80%;
+            left: -40%;
+            width: 40%;
+            height: 250%;
+            background: linear-gradient(
+                120deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,200,100,0.45) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(25deg);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
 
-    .btn-f1:hover::before {
-        opacity: 1;
-        animation: chispa-f1 0.5s ease forwards;
-    }
+        .btn-f1:hover::before {
+            opacity: 1;
+            animation: chispa-f1 0.5s ease forwards;
+        }
 
-    /* Animación del chispazo */
-    @keyframes chispa-f1 {
-        0% { transform: translateX(-300%) rotate(25deg); }
-        60% { transform: translateX(80%) rotate(25deg); }
-        100% { transform: translateX(300%) rotate(25deg); }
-    }
+        @keyframes chispa-f1 {
+            0% { transform: translateX(-300%) rotate(25deg); }
+            60% { transform: translateX(80%) rotate(25deg); }
+            100% { transform: translateX(300%) rotate(25deg); }
+        }
 
+        /* PIT STOP ANIMACIÓN */
+        .pitstop-container {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+        }
 
-    /* PIT STOP ANIMACIÓN */
-    .pitstop-container {
-        position: relative;
-        width: 100%;
-        height: 160px;
-        overflow: hidden;
-    }
+        .f1-pitcar {
+            position: absolute;
+            bottom: 0;
+            left: -300px;
+            height: 120px;
+            animation: pitstop 4s ease-in-out infinite;
+        }
 
-    .f1-pitcar {
-        position: absolute;
-        bottom: 0;
-        left: -300px;
-        height: 120px;
-        animation: pitstop 4s ease-in-out infinite;
-    }
+        .f1-pit-lights {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            width: 120px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255,255,0,0.8), transparent);
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: pitlights 4s ease-in-out infinite;
+        }
 
-    .f1-pit-lights {
-        position: absolute;
-        bottom: 40px;
-        left: 50%;
-        width: 120px;
-        height: 40px;
-        background: radial-gradient(circle, rgba(255,255,0,0.8), transparent);
-        transform: translateX(-50%);
-        opacity: 0;
-        animation: pitlights 4s ease-in-out infinite;
-    }
+        @keyframes pitstop {
+            0% { left: -300px; }
+            30% { left: 35%; }
+            50% { left: 35%; }
+            100% { left: 120%; }
+        }
 
-    @keyframes pitstop {
-        0% { left: -300px; }
-        30% { left: 35%; }
-        50% { left: 35%; }
-        100% { left: 120%; }
-    }
+        @keyframes pitlights {
+            0%, 30%, 100% { opacity: 0; }
+            40%, 45% { opacity: 1; }
+        }
 
-    @keyframes pitlights {
-        0%, 30%, 100% { opacity: 0; }
-        40%, 45% { opacity: 1; }
-    }
+        /* FOOTER */
+        .f1-footer {
+            background: var(--gris-metal);
+            border-top: 4px solid var(--rojo-ferrari);
+            color: #ddd;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer-title {
+            font-family: 'Orbitron';
+            font-weight: 700;
+            color: var(--amarillo-f1);
+            letter-spacing: 2px;
+        }
+
+        .footer-subtitle {
+            font-family: 'Orbitron';
+            color: var(--rojo-ferrari);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 6px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #eee;
+            transition: 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--amarillo-f1);
+            padding-left: 4px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-start;
+        }
+
+        .social-icon {
+            font-size: 1.8rem;
+            color: #fff;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .social-icon.instagram:hover { color: #E1306C; }
+        .social-icon.twitter:hover   { color: #1DA1F2; }
+        .social-icon.youtube:hover   { color: #FF0000; }
+        .social-icon.tiktok:hover    { color: #69C9D0; }
+
+        .f1-divider {
+            height: 4px;
+            background: linear-gradient(
+                90deg,
+                var(--rojo-ferrari),
+                var(--amarillo-f1),
+                var(--rojo-ferrari)
+            );
+            border-radius: 3px;
+        }
+
+        .footer-copy {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .f1-flag-line {
+            width: 100%;
+            height: 30px;
+            background-image: linear-gradient(
+                90deg,
+                #000 0%, #000 12.5%,
+                #fff 12.5%, #fff 25%,
+                #000 25%, #000 37.5%,
+                #fff 37.5%, #fff 50%,
+                #000 50%, #000 62.5%,
+                #fff 62.5%, #fff 75%,
+                #000 75%, #000 87.5%,
+                #fff 87.5%, #fff 100%
+            );
+            background-size: 200% 100%;
+            animation: flagMove 4s linear infinite;
+            border-radius: 5px;
+            opacity: 0.9;
+        }
+
+        @keyframes flagMove {
+            0% { background-position: 0 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===============================
+        SEMÁFORO DE F1 EN SIDEBAR
+        =============================== */
+
+        .f1-light-container-sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 0;
+            background-color: #11141a;
+            border-radius: 10px;
+            border: 2px solid var(--rojo-ferrari);
+        }
+
+        .f1-light-container-sidebar .f1-light {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin: 4px 0;
+            opacity: 0.2;
+            transition: opacity 0.3s ease-out;
+            box-shadow: 0 0 12px rgba(0,0,0,0.5);
+        }
+
+        /* Colores */
+        .f1-light.red { background-color: #ff1e00; }
+        .f1-light.green { background-color: #00ff44; opacity: 0; }
 
     </style>
 
@@ -347,30 +477,155 @@
                 <i class="bi bi-box-arrow-in-right me-2"></i> Ingresar
             </a>
         {% endif %}
+
+        <!-- SEMÁFORO F1 EN EL SIDEBAR -->
+        <div class="f1-light-container-sidebar mt-4 mb-3 text-center">
+            <div class="f1-light red"></div>
+            <div class="f1-light red"></div>
+            <div class="f1-light red"></div>
+            <div class="f1-light red"></div>
+            <div class="f1-light red"></div>
+
+            <div class="f1-light green mt-2"></div>
+        </div>
     </div>
+
 
     <!-- CONTENIDO -->
     <div class="content">
         {% block content %}{% endblock %}
     </div>
 
+    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-            const loader = document.getElementById("f1-loader");
-            loader.style.opacity = "0";
-            loader.style.transition = "opacity 0.8s ease";
+    document.addEventListener("DOMContentLoaded", () => {
+        function animarSemaforo() {
+            const rojas = document.querySelectorAll(".f1-light-container-sidebar .red");
+            const verde = document.querySelector(".f1-light-container-sidebar .green");
 
-            setTimeout(() => loader.remove(), 800);
-        }, 2200); // duración de la animación
+            if (!rojas.length || !verde) return;
+
+            let delay = 500; // medio segundo por luz
+
+            // Reiniciar estados
+            rojas.forEach(r => r.style.opacity = "0.2");
+            verde.style.opacity = "0";
+
+            // Encender rojas secuencialmente
+            rojas.forEach((light, index) => {
+                setTimeout(() => {
+                    light.style.opacity = "1";
+                    light.style.boxShadow = "0 0 15px #ff1e00";
+                }, delay * (index + 1));
+            });
+
+            // Encender verde al final
+            setTimeout(() => {
+                rojas.forEach(r => r.style.opacity = "0.2");
+                verde.style.opacity = "1";
+                verde.style.boxShadow = "0 0 20px #00ff44";
+            }, delay * (rojas.length + 1));
+
+            // Reiniciar animación cada 6 segundos
+            setTimeout(animarSemaforo, 6000);
+        }
+
+        animarSemaforo();
     });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                const loader = document.getElementById("f1-loader");
+                loader.style.opacity = "0";
+                loader.style.transition = "opacity 0.8s ease";
+
+                setTimeout(() => loader.remove(), 800);
+            }, 2200);
+        });
+    </script>
+
+    <!-- FOOTER -->
+    <footer class="f1-footer mt-5 pt-4 pb-3">
+        <div class="container">
+
+            <!-- ROW PRINCIPAL -->
+            <div class="row text-center text-md-start">
+
+                <!-- COLUMNA 1 -->
+                <div class="col-md-4 mb-4">
+                    <h4 class="footer-title">NIKI LAUDA TALLER</h4>
+                    <p class="footer-text">
+                        Precisión. Velocidad. Ingeniería de clase mundial inspirada en la Fórmula 1 y el legado de Niki Lauda.
+                    </p>
+                </div>
+
+                <!-- COLUMNA 2 -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="footer-subtitle">Enlaces Útiles</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">🏎 Inicio</a></li>
+                        <li><a href="{% url 'lista_trabajos' %}">📋 Ver Trabajos</a></li>
+                        <li><a href="{% url 'registrar_trabajo' %}">➕ Registrar Trabajo</a></li>
+
+                        {% if user.is_authenticated and user.perfil.rol == "ADMIN" %}
+                        <li><a href="{% url 'gestionar_usuarios' %}">⚙ Panel Administrativo</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <!-- COLUMNA 3 -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="footer-subtitle">Sigue a la Fórmula 1</h5>
+
+                    <div class="footer-socials">
+
+                        <a href="https://www.instagram.com/f1/" target="_blank" class="social-icon instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="https://twitter.com/f1" target="_blank" class="social-icon twitter">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/F1" target="_blank" class="social-icon youtube">
+                            <i class="bi bi-youtube"></i>
+                        </a>
+
+                        <a href="https://www.tiktok.com/@f1" target="_blank" class="social-icon tiktok">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SEPARADORES -->
+            <div class="f1-flag-line my-3"></div>
+            <div class="f1-divider my-3"></div>
+
+            <!-- COPYRIGHT -->
+            <div class="text-center mt-3">
+                <p class="footer-copy mb-0">
+                    © {{ now|date:"Y" }} — Proyecto académico inspirado en Niki Lauda & Fórmula 1.
+                    <hr>
+                    <span class="text-danger fw-bold">
+                        “No estoy diseñado para ser segundo o tercero. Estoy diseñado para ganar.” — Niki Lauda
+                    </span>
+                </p>
+            </div>
+
+        </div>
+    </footer>
 
     {% block extra_js %}{% endblock %}
 </body>
 </html>
+
 
 
 
